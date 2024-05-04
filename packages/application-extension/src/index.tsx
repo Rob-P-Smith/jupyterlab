@@ -442,7 +442,9 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
           
           if(labShell.fullscreenMode){
             document.documentElement.requestFullscreen(); 
-            document.onfullscreenchange = fullscreenchange;
+            document.onfullscreenchange = ()=> {
+              !document.fullscreenElement ? labShell.fullscreenMode = false : null;
+            };
           } else {
             document.exitFullscreen();
           }
@@ -450,14 +452,6 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
         isToggled: () => labShell.fullscreenMode,
         isVisible: () => true
       });
-
-      function fullscreenchange(){
-        if (!document.fullscreenElement) {
-          if(labShell !== null){
-            labShell.fullscreenMode = false;
-          }
-        }
-      }
 
       commands.addCommand(CommandIDs.setMode, {
         label: args =>
