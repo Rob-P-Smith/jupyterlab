@@ -48,6 +48,11 @@
       "selector": "body"
     },
     {
+      "command": "application:toggle-fullscreen-mode",
+      "keys": ["Alt Shift l"],
+      "selector": "body"
+    },
+    {
       "command": "application:toggle-sidebar-widget",
       "keys": ["Alt 1"],
       "macKeys": [""],

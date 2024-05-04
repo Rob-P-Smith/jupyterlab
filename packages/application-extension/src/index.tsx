@@ -440,30 +440,9 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
         execute: () => {
           labShell.fullscreenMode = !labShell.fullscreenMode;
           
-          function exitHandler(){
-            labShell.fullscreenMode = !labShell.fullscreenMode;
-            removeFullscreenModeListeners();
-          }
-
-          function addFullscreenModeListeners(){
-            document.addEventListener('fullscreenchange', exitHandler);
-            document.addEventListener('webkitfullscreenchange', exitHandler);
-            document.addEventListener('mozfullscreenchange', exitHandler);
-            document.addEventListener('MSFullscreenChange', exitHandler);
-          }
-
-          function removeFullscreenModeListeners(){
-            document.removeEventListener('fullscreenchange', exitHandler);
-            document.removeEventListener('webkitfullscreenchange', exitHandler);
-            document.removeEventListener('mozfullscreenchange', exitHandler);
-            document.removeEventListener('MSFullscreenChange', exitHandler);
-          }
-
           if(labShell.fullscreenMode){
-            document.documentElement.requestFullscreen();
-            useEffect(()=> {
-              addFullscreenModeListeners();
-            }, []);
+            document.documentElement.requestFullscreen(); 
+            document.onfullscreenchange = fullscreenchange;
           } else {
             document.exitFullscreen();
           }
@@ -471,6 +450,14 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
         isToggled: () => labShell.fullscreenMode,
         isVisible: () => true
       });
+
+      function fullscreenchange(){
+        if (!document.fullscreenElement) {
+          if(labShell !== null){
+            labShell.fullscreenMode = false;
+          }
+        }
+      }
 
       commands.addCommand(CommandIDs.setMode, {
         label: args =>
