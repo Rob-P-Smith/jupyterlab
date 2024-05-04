@@ -439,8 +439,31 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
         label: () => trans.__('Fullscreen Mode'),
         execute: () => {
           labShell.fullscreenMode = !labShell.fullscreenMode;
+          
+          function exitHandler(){
+            labShell.fullscreenMode = !labShell.fullscreenMode;
+            removeFullscreenModeListeners();
+          }
+
+          function addFullscreenModeListeners(){
+            document.addEventListener('fullscreenchange', exitHandler);
+            document.addEventListener('webkitfullscreenchange', exitHandler);
+            document.addEventListener('mozfullscreenchange', exitHandler);
+            document.addEventListener('MSFullscreenChange', exitHandler);
+          }
+
+          function removeFullscreenModeListeners(){
+            document.removeEventListener('fullscreenchange', exitHandler);
+            document.removeEventListener('webkitfullscreenchange', exitHandler);
+            document.removeEventListener('mozfullscreenchange', exitHandler);
+            document.removeEventListener('MSFullscreenChange', exitHandler);
+          }
+
           if(labShell.fullscreenMode){
             document.documentElement.requestFullscreen();
+            useEffect(()=> {
+              addFullscreenModeListeners();
+            }, []);
           } else {
             document.exitFullscreen();
           }
