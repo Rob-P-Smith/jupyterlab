@@ -450,7 +450,6 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
           }
         },
         isToggled: () => labShell.fullscreenMode,
-        isVisible: () => true
       });
 
       commands.addCommand(CommandIDs.setMode, {
