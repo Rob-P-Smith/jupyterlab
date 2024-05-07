@@ -497,6 +497,13 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
                 console.error('Failed to undo presentation mode.', reason);
               });
           }
+          if (labShell.fullscreenMode){
+            commands
+             .execute(CommandIDs.toggleFullscreenMode)
+             .catch(reason => {
+                console.error('Failed to undo fullscreen mode.', reason);
+              });
+          }
           // Display top header
           if (
             labShell.mode === 'single-document' &&
