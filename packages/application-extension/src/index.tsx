@@ -497,6 +497,7 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
                 console.error('Failed to undo presentation mode.', reason);
               });
           }
+          // Turn off fullscreen mode
           if (labShell.fullscreenMode){
             commands
              .execute(CommandIDs.toggleFullscreenMode)
