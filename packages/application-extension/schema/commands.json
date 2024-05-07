@@ -364,6 +364,11 @@
         "rank": 5
       },
       {
+        "command": "application:close-right-tabs",
+        "selector": "jp-main-dock-panel  .lm-DockPanel-tabBar .lm-TabBat-tab",
+        "rank": 6
+      },
+      {
         "command": "__internal:context-menu-info",
         "selector": "body",
         "rank": 9007199254740991

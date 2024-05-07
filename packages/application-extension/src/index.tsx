@@ -86,6 +86,8 @@ namespace CommandIDs {
 
   export const closeRightTabs = 'application:close-right-tabs';
 
+  export const fullscreenThisTab = 'application:fullscreen-this-tab';
+
   export const closeAll: string = 'application:close-all';
 
   export const setMode: string = 'application:set-mode';
@@ -295,6 +297,42 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
     });
 
     if (labShell) {
+
+      commands.addCommand(CommandIDs.fullscreenThisTab, {
+        label: () => trans.__('Set Tab fullScreen'),
+        // isEnabled: () =>
+        //   !!contextMenuWidget() && labShell?.fullscreenMode,
+        execute: () => {
+            const widget = contextMenuWidget();
+            if (!widget) {
+              return;
+            }
+            // Toggle Left Area
+            if (!labShell.leftCollapsed) {
+              commands
+                .execute(CommandIDs.toggleLeftArea)
+                .catch(reason => {
+                  console.error('Failed to toggle left area.', reason);
+                });
+            }
+            // Toggle Right Area
+            if (!labShell.rightCollapsed) {
+              commands
+                .execute(CommandIDs.toggleRightArea)
+                .catch(reason => {
+                  console.error('Failed to toggle right area.', reason);
+                });
+            }
+            // if (!labShell.rightCollapsed) {
+            //   commands
+            //     .execute(CommandIDs.toggleRightArea)
+            //     .catch(reason => {
+            //       console.error('Failed to toggle right area.', reason);
+            //     });
+            // }
+          }
+      });
+
       commands.addCommand(CommandIDs.activateNextTab, {
         label: trans.__('Activate Next Tab'),
         execute: () => {
@@ -544,6 +582,7 @@ const mainCommands: JupyterFrontEndPlugin<void> = {
         CommandIDs.closeAll,
         CommandIDs.closeOtherTabs,
         CommandIDs.closeRightTabs,
+        CommandIDs.fullscreenThisTab,
         CommandIDs.toggleHeader,
         CommandIDs.toggleLeftArea,
         CommandIDs.toggleRightArea,
